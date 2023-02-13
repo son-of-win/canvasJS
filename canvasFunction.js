@@ -62,7 +62,7 @@ export function caculateAngle(x1, y1, x2, y2, x3, y3, x4, y4) {
  * @param {boolean} label : đường thẳng có nhãn hay không
  */
 export function drawLine(ctx, xStart, yStart, xEnd, yEnd, label=false) {
-    ctx.font = "20px Times New Roman"
+    ctx.font = "20px Times New Roman";
     ctx.beginPath();
     ctx.moveTo(xStart, yStart);
     ctx.lineTo(xEnd, yEnd);
@@ -117,7 +117,7 @@ export function drawLine(ctx, xStart, yStart, xEnd, yEnd, label=false) {
  * @param {boolean} sizeLabel : label độ dài của từng cạnh
  * @returns 
  */
-export function drawRect(ctx, xTopLeft, yTopLeft, width, height, rotateDegress=0, xCenter=0, yCenter=0, border=true, sizeLabel=false) {
+export function drawRect(ctx, xTopLeft, yTopLeft, width, height, rotateDegress=0, xCenter=0, yCenter=0, border=true, sizeLabel=false, labelRight=false) {
     /**
      * xTopLeft, yTopLeft: toạ độ trên cùng bên trái
      * width, height: kích thước của hình chữ nhật
@@ -138,12 +138,14 @@ export function drawRect(ctx, xTopLeft, yTopLeft, width, height, rotateDegress=0
     }
     else {
         ctx.fillStyle = 'rgba(195, 201, 200, 0.5)';
-        ctx.fillRect(xTopLeft, yTopLeft, width, height);
+        ctx.rect(xTopLeft, yTopLeft, width, height);
+        ctx.fill();
+        ctx.stroke();
     }
 
     if(sizeLabel) {
         drawLine(ctx, xTopLeft, yTopLeft - 10, xTopLeft + width, yTopLeft - 10, true);
-        if (xTopLeft < globalCenterX) {
+        if (labelRight) {
             drawLine(ctx, xTopLeft - 10, yTopLeft, xTopLeft - 10, yTopLeft + height, true)
         } 
         else {
@@ -152,4 +154,12 @@ export function drawRect(ctx, xTopLeft, yTopLeft, width, height, rotateDegress=0
     }
     ctx.restore()
     return newPoint;
+}
+
+export function drawTextBox(ctx, content, xStart, yStart, fontSize) {
+    let textArr = content.split('\n');
+    for (let i = 0; i < textArr.length; i++) {
+        ctx.fillText(textArr[i], xStart, yStart);
+        yStart += fontSize;
+    }
 }
